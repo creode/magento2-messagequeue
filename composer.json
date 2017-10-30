@@ -1,0 +1,23 @@
+{
+    "name": "creode/messagequeue",
+    "description": "",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "creode@creode.co.uk",
+            "name": "Creode"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "creode/magento2-base": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Creode\\MessageQueue\\": ""
+        }
+    }
+}

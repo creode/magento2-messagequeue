@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Creode_MessageQueue::parent"
+            title="Message Queue"
+            module="Creode_MessageQueue"
+            sortOrder="100"
+            parent="Creode_Base::creode"
+            resource="Creode_MessageQueue::parent"/>
+		<add id="Creode_MessageQueue::messagequeue"
+            title="Messages"
+            module="Creode_MessageQueue"
+            sortOrder="20"
+            parent="Creode_MessageQueue::parent"
+            action="messagequeue/messagequeue"
+            resource="Creode_MessageQueue::messagequeue"/>
+
+    </menu>
+</config>

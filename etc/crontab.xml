@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="messagequeue">
+        <!-- at 3am purge old completed/failed messages from the queue -->
+        <job instance="Creode\MessageQueue\Cron\CleanQueue" method="execute" name="creode_messagequeue_cleanqueue">
+            <schedule>0 3 * * *</schedule>
+        </job>
+    </group>
+</config>
