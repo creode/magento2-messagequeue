@@ -90,13 +90,14 @@ class ProcessCreodesGroup extends ProcessQueue
 
 ```
 
-## House Keeping
+## Housekeeping
 
 The module comes with a cron job that cleans the queue of any messages that
 were not created or updated in the last 2 months.
 
 If you want to make changes to the clearing criteria, override the `Creode\MessageQueue\Cron\CleanQueue`
 class and adjust the `cleanupMessages` method. If you just want to override the threshold then you
-can leave the `cleanupMessages` method alone and simply override the `DATE_THRESHOLD` class constant.
+can leave the `cleanupMessages` method alone and simply override
+ the `DATE_THRESHOLD` class constant.
 
 
