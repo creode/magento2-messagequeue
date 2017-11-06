@@ -116,23 +116,32 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 								'options' => \Creode\MessageQueue\Block\Adminhtml\Messagequeue\Grid::getOptionArray2()
 							]
 						);
-						
+					
+                $this->addColumn(
+                    'failures',
+                    [
+                        'header' => __('Failures'),
+                        'index' => 'failures',
+                        'type' => 'number'
+                    ]
+                );
+
 						
 				$this->addColumn(
-					'created_at',
+					'creation_time',
 					[
 						'header' => __('Created'),
-						'index' => 'created_at',
+						'index' => 'creation_time',
 						'type'      => 'datetime',
 					]
 				);
 					
 					
 				$this->addColumn(
-					'updated_at',
+					'update_time',
 					[
 						'header' => __('Updated'),
-						'index' => 'updated_at',
+						'index' => 'update_time',
 						'type'      => 'datetime',
 					]
 				);
