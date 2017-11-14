@@ -50,8 +50,7 @@ class CleanQueue
         $cutoffDate = (new \DateTime())->modify(static::DATE_THRESHOLD);
         $formattedCutoffDate = $cutoffDate->format('Y-m-d H:i:s');
 
-        echo 'Deleting messages older than ' . $formattedCutoffDate . PHP_EOL;
-        $this->logger->addInfo('Deleting messages older than ' . $formattedCutoffDate);
+        $this->logger->debug('Deleting messages older than ' . $formattedCutoffDate);
 
         $messageQueue = $this->messageQueueFactory->create();
 
@@ -71,7 +70,7 @@ class CleanQueue
                 ['lteq' => $formattedCutoffDate]
             );
 
-        echo 'Deleting ' . count($messageCollection) . ' messages'. PHP_EOL;
+        $this->logger->debug('Deleting ' . count($messageCollection) . ' messages');
 
         $messageCollection->walk('delete');
     }

@@ -49,8 +49,6 @@ abstract class ProcessQueue
      */
     public function execute()
     {
-        echo PHP_EOL;
-
         $this->pullMessages();
 
         $this->processMessages();
@@ -59,8 +57,7 @@ abstract class ProcessQueue
 
     private function pullMessages()
     {
-        echo 'Pulling messages of type ' . static::MESSAGE_GROUP . PHP_EOL;
-        $this->logger->addInfo('Pulling messages of type ' . static::MESSAGE_GROUP);
+        $this->logger->debug('Pulling messages of type ' . static::MESSAGE_GROUP);
 
         $messageQueue = $this->messageQueueFactory->create();
 
@@ -78,7 +75,7 @@ abstract class ProcessQueue
     private function processMessages()
     {
         if (count($this->messages) == 0) {
-            $this->logger->addInfo('No messages to process');
+            $this->logger->debug('No messages to process');
             return;
         }
 
@@ -86,18 +83,17 @@ abstract class ProcessQueue
             try {
                 $this->markMessageProcessing($message);
 
-                $this->logger->addInfo('Processing message ' . $message->getId());
+                $this->logger->debug('Processing message ' . $message->getId());
                 $this->processMessage($message);
 
-                $this->logger->addInfo('Completed processing message ' . $message->getId() . ' - SUCCESS');
+                $this->logger->debug('Completed processing message ' . $message->getId() . ' - SUCCESS');
                 $this->markMessageProcessed($message);
             } catch (\Exception $e) {
                 $message->setFailures(
                     $message->getFailures() + 1
                 );
 
-                $this->logger->addWarning('WARNING: Failure #' . $message->getFailures() . ' processing message ' . $message->getId() . ' - MESSAGE: ' . $e->getMessage());
-                echo 'EXCEPTION: ' . $e->getMessage() . PHP_EOL;
+                $this->logger->debug('WARNING: Failure #' . $message->getFailures() . ' processing message ' . $message->getId() . ' - MESSAGE: ' . $e->getMessage());
 
                 if ($message->getFailures() >= $this->maxFailures) {
                     $this->markMessageFailed($message);
@@ -115,8 +111,7 @@ abstract class ProcessQueue
      */
     private function markMessageProcessing(Message $message) 
     {
-        $this->logger->addInfo('Marking message ' . $message->getId() . ' as processing');
-        echo 'PENDING - this message is being processed' . PHP_EOL;
+        $this->logger->debug('Marking message ' . $message->getId() . ' as processing');
 
         $this->updateMessageStatus($message, Message::STATUS_PROCESSING);
     }
@@ -128,8 +123,7 @@ abstract class ProcessQueue
      */
     private function markMessageProcessed(Message $message)
     {
-        $this->logger->addInfo('Marking message ' . $message->getId() . ' as processed');
-        echo 'SUCCESS - this message has been processed' . PHP_EOL;
+        $this->logger->debug('Marking message ' . $message->getId() . ' as processed');
 
         $this->updateMessageStatus($message, Message::STATUS_COMPLETED);
     }
@@ -141,8 +135,7 @@ abstract class ProcessQueue
      */
     private function markMessageFailed(Message $message)
     {
-        $this->logger->addInfo('Marking message ' . $message->getId() . ' as failed. It will not be processed');
-        echo 'ERROR - Aborting message ' . $message->getId() . ' after ' . $message->getFailures() . ' failures' . PHP_EOL;
+        $this->logger->debug('Marking message ' . $message->getId() . ' as failed. It will not be processed');
 
         $this->updateMessageStatus($message, Message::STATUS_FAILED);
     }
@@ -154,8 +147,7 @@ abstract class ProcessQueue
      */
     private function putMessageBackInQueue(Message $message)
     {
-        $this->logger->addInfo('Putting message ' . $message->getId() . ' back into the queue');
-        echo 'WARNING - Pushing message ' . $message->getId() . ' back into the queue after ' . $message->getFailures() . ' failures' . PHP_EOL;
+        $this->logger->debug('Putting message ' . $message->getId() . ' back into the queue after ' . $message->getFailures() . ' failures');
 
         $this->updateMessageStatus($message, Message::STATUS_WAITING);
     }
